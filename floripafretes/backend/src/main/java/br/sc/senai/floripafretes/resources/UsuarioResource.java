@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ public class UsuarioResource {
 	//Inserindo novo usuario
 	@PostMapping("/usuarios") 
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
+		
 		try {
 			Usuario newUser = usuarioRepo.save(usuario);
 			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
@@ -35,9 +37,10 @@ public class UsuarioResource {
 		}
 	}
 	
-	//Buscando todos usuarios
+	//Listando todos usuarios
 	@GetMapping("/usuarios")
 	public ResponseEntity <Iterable<Usuario>> listUsuarios() {
+		
 		try {
 			Iterable<Usuario> usuarios = usuarioRepo.findAll();
 			if (((Collection<?>) usuarios).size() == 0) {
@@ -47,6 +50,14 @@ public class UsuarioResource {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+	}
+	
+	//Buscando usuario por id
+	@GetMapping("usuarios/{id}")
+	public ResponseEntity<?> findById (@PathVariable("id") Integer id) {
+		return usuarioRepo.findById(id)
+				.map(record -> ResponseEntity.ok().body(record))
+				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	//Atualizar usuario por id
@@ -65,6 +76,18 @@ public class UsuarioResource {
 			return new ResponseEntity<>(usuarioRepo.save(updateUsuario), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	//Deletar usuario por id
+	@DeleteMapping("usuarios/{id}")
+	public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") Integer id) {
+		
+		try {
+			usuarioRepo.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 

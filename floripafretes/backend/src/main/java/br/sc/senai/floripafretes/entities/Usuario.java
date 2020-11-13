@@ -14,6 +14,7 @@ public class Usuario {
 	
 	private String nome;
 	private String email;
+	private String senha;
 	private String celular;
 	private String cep;
 	private String bairro;
@@ -21,11 +22,12 @@ public class Usuario {
 	public Usuario () {	
 	}
 
-	public Usuario(Integer id, String nome, String email, String celular, String cep, String bairro) {
+	public Usuario(Integer id, String nome, String email, String senha, String celular, String cep, String bairro) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
+		this.senha = senha;
 		this.celular = celular;
 		this.cep = cep;
 		this.bairro = bairro;
@@ -53,6 +55,14 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+	
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getCelular() {

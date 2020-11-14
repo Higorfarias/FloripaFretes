@@ -30,8 +30,8 @@ public class UsuarioResource {
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
 		
 		try {
-			Usuario newUser = usuarioRepo.save(usuario);
-			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+			Usuario newUsuario = usuarioRepo.save(usuario);
+			return new ResponseEntity<>(newUsuario, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
 		}

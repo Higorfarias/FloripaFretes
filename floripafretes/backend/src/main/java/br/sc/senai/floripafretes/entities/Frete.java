@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Frete {
@@ -19,6 +21,10 @@ public class Frete {
 	
 	public Frete () {
 	}
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	public Frete(Integer id, String titulo, String descricao, String endereco, String cep, String cel) {
 		super();
@@ -77,6 +83,15 @@ public class Frete {
 	public void setCel(String cel) {
 		this.cel = cel;
 	}
+	
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	@Override
 	public int hashCode() {
@@ -101,6 +116,12 @@ public class Frete {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Frete [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", endereco=" + endereco
+				+ ", cep=" + cep + ", cel=" + cel + ", usuario=" + usuario + "]";
 	}
 	
 	

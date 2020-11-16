@@ -25,6 +25,7 @@ public class FreteResource {
 	@Autowired
 	private FreteRepository freteRepo;
 	
+	//Inserir novo frete
 	@PostMapping("/fretes")
 	public ResponseEntity<Frete> addFrete(@RequestBody Frete frete) {
 		
@@ -36,6 +37,7 @@ public class FreteResource {
 		}
 	}
 	
+	//Listando todos fretes
 	@GetMapping("/fretes")
 	public ResponseEntity <Iterable<Frete>> listFretes() {
 		
@@ -50,12 +52,14 @@ public class FreteResource {
         }
 	}
 	
+	//Buscando frete por id
 	@GetMapping("/fretes/{id}")
 	public ResponseEntity<?> findById (@PathVariable("id") Integer id) {
 		return freteRepo.findById(id).map(record -> ResponseEntity.ok()
 				.body(record)).orElse(ResponseEntity.notFound().build());
 	}
 	
+	//Atualizando frete
 	@PutMapping("/fretes/{id}")
 	public ResponseEntity<Frete> updateFrete(@PathVariable("id") Integer id, @RequestBody Frete frete) {
 		Optional<Frete> freteData = freteRepo.findById(id);
@@ -73,6 +77,7 @@ public class FreteResource {
 		}
 	}
 	
+	//Deletar frete
 	@DeleteMapping("fretes/{id}")
 	public ResponseEntity<HttpStatus> deleteFrete(@PathVariable("id") Integer id) {
 		
@@ -83,6 +88,12 @@ public class FreteResource {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "FreteResource [freteRepo=" + freteRepo + "]";
+	}
+	
 	
 
 }

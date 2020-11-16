@@ -1,9 +1,12 @@
 package br.sc.senai.floripafretes.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario {
@@ -18,6 +21,9 @@ public class Usuario {
 	private String celular;
 	private String cep;
 	private String bairro;
+	
+	@OneToMany(mappedBy="usuario")
+	private List<Frete> fretes;
 	
 	public Usuario () {	
 	}
@@ -87,6 +93,14 @@ public class Usuario {
 
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
+	}
+	
+	public List<Frete> getFretes() {
+		return fretes;
+	}
+
+	public void setFretes(List<Frete> fretes) {
+		this.fretes = fretes;
 	}
 
 	@Override

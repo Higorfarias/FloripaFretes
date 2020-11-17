@@ -27,7 +27,7 @@ public class Usuario implements Serializable{
 	private String cep;
 	private String bairro;
 	
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy="usuario", targetEntity = Frete.class)
 	private List<Frete> fretes = new ArrayList<Frete>();
 	
 	public Usuario () {	

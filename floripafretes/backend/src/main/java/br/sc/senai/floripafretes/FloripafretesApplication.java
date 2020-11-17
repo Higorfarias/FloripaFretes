@@ -32,6 +32,7 @@ public class FloripafretesApplication {
 		Frete fr2 = new Frete(null, "Frete sc", "frete gratis", "sc", "932932assasa9", "32233sasa23223" );
 		
 		user1.getFretes().addAll(Arrays.asList(fr1));
+		fr1.getUsuario().addAll(Arrays.asList(user1));
 		
 		freteRepository.saveAll(Arrays.asList(fr1, fr2));
 		usuarioRepository.saveAll(Arrays.asList(user1, user2));

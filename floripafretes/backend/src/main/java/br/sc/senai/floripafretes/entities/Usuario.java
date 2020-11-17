@@ -28,7 +28,7 @@ public class Usuario implements Serializable{
 	private String bairro;
 	
 	@OneToMany(mappedBy="usuario", targetEntity = Frete.class)
-	private List<Frete> fretes = new ArrayList<Frete>();
+	private List<Frete> fretes = new ArrayList<>();
 	
 	public Usuario () {	
 	}
@@ -131,6 +131,11 @@ public class Usuario implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void addAll(List<Usuario> asList) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

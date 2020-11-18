@@ -1,5 +1,6 @@
 package br.sc.senai.floripafretes.resources;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -68,6 +69,7 @@ public class FreteResource {
 			Frete updateFrete = freteData.get();
 			updateFrete.setTitulo(frete.getTitulo());
 			updateFrete.setDescricao(frete.getDescricao());
+			updateFrete.setData(LocalDate.now());
 			updateFrete.setEndereco(frete.getEndereco());
 			updateFrete.setCep(frete.getCep());
 			updateFrete.setCel(frete.getCel());

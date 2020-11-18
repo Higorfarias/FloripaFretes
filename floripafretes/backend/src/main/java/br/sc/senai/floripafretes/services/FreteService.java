@@ -1,5 +1,6 @@
 package br.sc.senai.floripafretes.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class FreteService {
 		
 		entity.setTitulo(frete.getTitulo());
 		entity.setDescricao(frete.getDescricao());
+		entity.setData(LocalDate.now());
 		entity.setEndereco(frete.getEndereco());
 		entity.setCep(frete.getCep());
 		entity.setCel(frete.getCel());

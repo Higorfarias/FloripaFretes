@@ -29,7 +29,7 @@ public class FloripafretesApplication {
 	public void run(String... args) throws Exception {
 		
 		Usuario user1  = new Usuario(null, "Higor", "sahusauhsa@Gmail.com", bCrypt.encode("123"), "232323223");
-		Usuario user2  = new Usuario(null, "Lucas Steffens", "lucas@Gmail.com", bCrypt.encode("123"), "232323223");
+		Usuario user2  = new Usuario(null, "Lucas Steffens", "lucas@Gmail.com",bCrypt.encode("123"), "232323223");
 		
 		Frete fr1 = new Frete(null, "Frete Joao paulo", "frete gratis", "joao paulo", "9329329", "3223323223" );
 		Frete fr2 = new Frete(null, "Frete sc", "frete gratis", "sc", "932932assasa9", "32233sasa23223" );

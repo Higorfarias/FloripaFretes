@@ -1,6 +1,7 @@
 package br.sc.senai.floripafretes.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,23 +11,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
-@Table(name="fretes")
+@Table(name = "fretes")
 public class Frete implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String titulo;
 	private String descricao;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private LocalDate data;
+	
 	private String endereco;
 	private String cep;
 	private String cel;
-	
-	public Frete () {
+
+	public Frete() {
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
@@ -88,7 +95,6 @@ public class Frete implements Serializable {
 	public void setCel(String cel) {
 		this.cel = cel;
 	}
-	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -96,6 +102,14 @@ public class Frete implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public LocalDate getData() {
+		return data;
+	}
+
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
 	@Override
@@ -128,8 +142,5 @@ public class Frete implements Serializable {
 		return "Frete [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", endereco=" + endereco
 				+ ", cep=" + cep + ", cel=" + cel + ", usuario=" + usuario + "]";
 	}
-	
-	
 
-	
 }

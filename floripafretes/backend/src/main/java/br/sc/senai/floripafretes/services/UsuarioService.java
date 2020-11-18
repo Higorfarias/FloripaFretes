@@ -37,8 +37,8 @@ public class UsuarioService {
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
 		entity.setNome(usuario.getNome());
-		entity.setEmail(bCrypt.encode(usuario.getEmail()));
-		entity.setSenha(usuario.getSenha());
+		entity.setEmail(usuario.getEmail());
+		entity.setSenha(bCrypt.encode(usuario.getSenha()));
 		entity.setCelular(usuario.getCelular());
 		
 		return usuarioRepo.save(entity);

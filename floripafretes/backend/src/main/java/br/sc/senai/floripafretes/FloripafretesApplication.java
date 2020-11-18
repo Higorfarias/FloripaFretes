@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.sc.senai.floripafretes.entities.Frete;
 import br.sc.senai.floripafretes.entities.Usuario;
@@ -14,6 +15,8 @@ import br.sc.senai.floripafretes.repositories.UsuarioRepository;
 @SpringBootApplication
 public class FloripafretesApplication {
 	
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	@Autowired 
@@ -25,8 +28,8 @@ public class FloripafretesApplication {
 	
 	public void run(String... args) throws Exception {
 		
-		Usuario user1  = new Usuario(null, "Higor", "sahusauhsa@Gmail.com", "1234", "232323223", "24424242", "saco grande");
-		Usuario user2  = new Usuario(null, "Lucas Steffens", "lucas@Gmail.com", "12234", "232323223", "24424242", "monte verde");
+		Usuario user1  = new Usuario(null, "Higor", "sahusauhsa@Gmail.com", bCrypt.encode("123"), "232323223");
+		Usuario user2  = new Usuario(null, "Lucas Steffens", "lucas@Gmail.com", bCrypt.encode("123"), "232323223");
 		
 		Frete fr1 = new Frete(null, "Frete Joao paulo", "frete gratis", "joao paulo", "9329329", "3223323223" );
 		Frete fr2 = new Frete(null, "Frete sc", "frete gratis", "sc", "932932assasa9", "32233sasa23223" );

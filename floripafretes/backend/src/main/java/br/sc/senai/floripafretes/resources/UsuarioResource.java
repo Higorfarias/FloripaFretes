@@ -71,8 +71,6 @@ public class UsuarioResource {
 			updateUsuario.setEmail(usuario.getEmail());
 			updateUsuario.setSenha(usuario.getSenha());
 			updateUsuario.setCelular(usuario.getCelular());
-			updateUsuario.setCep(usuario.getCep());
-			updateUsuario.setBairro(usuario.getBairro());
 			return new ResponseEntity<>(usuarioRepo.save(updateUsuario), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -3,6 +3,7 @@ package br.sc.senai.floripafretes.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.sc.senai.floripafretes.entities.Usuario;
@@ -12,6 +13,9 @@ import br.sc.senai.floripafretes.repositories.UsuarioRepository;
 @Service
 public class UsuarioService {
 
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
+	
 	@Autowired
 	private UsuarioRepository usuarioRepo;
 
@@ -33,11 +37,9 @@ public class UsuarioService {
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
 		entity.setNome(usuario.getNome());
-		entity.setEmail(usuario.getEmail());
+		entity.setEmail(bCrypt.encode(usuario.getEmail()));
 		entity.setSenha(usuario.getSenha());
 		entity.setCelular(usuario.getCelular());
-		entity.setCep(usuario.getCep());
-		entity.setCep(usuario.getBairro());
 		
 		return usuarioRepo.save(entity);
 	}

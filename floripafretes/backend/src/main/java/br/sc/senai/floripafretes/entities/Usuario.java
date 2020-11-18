@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,11 +24,15 @@ public class Usuario implements Serializable{
 	private Integer id;
 	
 	private String nome;
+	
+	@Column(unique=true)
 	private String email;
+	
+	@JsonIgnore
 	private String senha;
 	private String celular;
-	private String cep;
-	private String bairro;
+	
+
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="usuario", targetEntity = Frete.class)
@@ -36,15 +41,14 @@ public class Usuario implements Serializable{
 	public Usuario () {	
 	}
 
-	public Usuario(Integer id, String nome, String email, String senha, String celular, String cep, String bairro) {
-		super();
+	public Usuario(Integer id, String nome, String email, String senha, String celular) {
+		super(); 
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 		this.celular = celular;
-		this.cep = cep;
-		this.bairro = bairro;
+		
 	}
 
 	public Integer getId() {
@@ -85,22 +89,6 @@ public class Usuario implements Serializable{
 
 	public void setCelular(String celular) {
 		this.celular = celular;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
 	}
 	
 	public List<Frete> getFretes() {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -19,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import br.sc.senai.floripafretes.entities.enums.Perfil;
 
 @Entity
 @Table(name="usuarios")
@@ -59,7 +56,6 @@ public class Usuario implements Serializable{
 		this.email = email;
 		this.senha = senha;
 		this.celular = celular;
-		addPerfil(Perfil.CLIENTE);
 		
 	}
 
@@ -111,15 +107,6 @@ public class Usuario implements Serializable{
 		this.fretes = fretes;
 	}
 	
-	public Set<Perfil> getPerfis() {
-		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
-	}
-	
-	public void addPerfil(Perfil perfil) {
-		perfis.add(perfil.getCod());
-	}
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

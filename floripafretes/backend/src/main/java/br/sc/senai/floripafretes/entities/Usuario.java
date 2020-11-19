@@ -2,10 +2,16 @@ package br.sc.senai.floripafretes.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.sc.senai.floripafretes.entities.enums.Perfil;
 
 @Entity
 @Table(name="usuarios")
@@ -32,11 +40,14 @@ public class Usuario implements Serializable{
 	private String senha;
 	private String celular;
 	
-
-	
 	@JsonIgnore
 	@OneToMany(mappedBy="usuario", targetEntity = Frete.class)
 	private List<Frete> fretes = new ArrayList<>();
+	
+	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
 	
 	public Usuario () {	
 	}
@@ -48,6 +59,7 @@ public class Usuario implements Serializable{
 		this.email = email;
 		this.senha = senha;
 		this.celular = celular;
+		addPerfil(Perfil.CLIENTE);
 		
 	}
 
@@ -98,6 +110,15 @@ public class Usuario implements Serializable{
 	public void setFretes(List<Frete> fretes) {
 		this.fretes = fretes;
 	}
+	
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
+	}
+	
 
 	@Override
 	public int hashCode() {

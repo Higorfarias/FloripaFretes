@@ -2,10 +2,13 @@ package br.sc.senai.floripafretes.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+
 public class CredenciaisDTO implements Serializable {
 		private static final long serialVersionUID = 1L;
 		
 		private String email;
+		@Column(length=65)
 		private String senha;
 		
 		public CredenciaisDTO() {

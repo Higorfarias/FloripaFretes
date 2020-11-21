@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.sc.senai.floripafretes.dto.CredenciaisDTO;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	
-private AuthenticationManager authenticationManager;
+
+	private AuthenticationManager authenticationManager;
     
     private JWTUtil jwtUtil;
 
@@ -81,5 +81,4 @@ private AuthenticationManager authenticationManager;
                 + "\"path\": \"/login\"}";
         }
     }
-
 }

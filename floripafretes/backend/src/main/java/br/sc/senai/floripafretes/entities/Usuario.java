@@ -2,15 +2,10 @@ package br.sc.senai.floripafretes.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,18 +28,13 @@ public class Usuario implements Serializable{
 	@Column(unique=true)
 	private String email;
 	
-	@JsonIgnore
+	@Column(length=65)
 	private String senha;
 	private String celular;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="usuario", targetEntity = Frete.class)
 	private List<Frete> fretes = new ArrayList<>();
-	
-	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="PERFIS")
-	private Set<Integer> perfis = new HashSet<>();
 	
 	public Usuario () {	
 	}
@@ -107,6 +97,11 @@ public class Usuario implements Serializable{
 		this.fretes = fretes;
 	}
 	
+	public void addAll(List<Usuario> asList) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,10 +127,7 @@ public class Usuario implements Serializable{
 		return true;
 	}
 
-	public void addAll(List<Usuario> asList) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 

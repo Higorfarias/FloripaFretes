@@ -26,16 +26,15 @@ import br.sc.senai.floripafretes.services.FreteService;
 @RequestMapping("/")
 public class FreteResource {
 	
+	private FreteService freteService;
+
 	@Autowired
 	private FreteRepository freteRepo;
-	
 
-	private FreteService freteService;
-	
-	//Inserir novo frete
+	// Inserir novo frete
 	@PostMapping("/fretes")
 	public ResponseEntity<Frete> addFrete(@RequestBody Frete frete) {
-		
+
 		try {
 			Frete newFrete = freteRepo.save(frete);
 			return new ResponseEntity<>(newFrete, HttpStatus.CREATED);
@@ -43,35 +42,35 @@ public class FreteResource {
 			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
 		}
 	}
-	
-	//Listando todos fretes
+
+	// Listando todos fretes
 	@GetMapping("/fretes")
-	public ResponseEntity <Iterable<Frete>> listFretes() {
-		
+	public ResponseEntity<Iterable<Frete>> listFretes() {
+
 		try {
 			Iterable<Frete> fretes = freteRepo.findAll();
 			if (((Collection<?>) fretes).size() == 0) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(fretes, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(fretes, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
-	//Buscando frete por id
+
+	// Buscando frete por id
 	@GetMapping("/fretes/{id}")
-	public ResponseEntity<?> findById (@PathVariable("id") Integer id) {
-		return freteRepo.findById(id).map(record -> ResponseEntity.ok()
-				.body(record)).orElse(ResponseEntity.notFound().build());
+	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
+		return freteRepo.findById(id).map(record -> ResponseEntity.ok().body(record))
+				.orElse(ResponseEntity.notFound().build());
 	}
-	
-	//Atualizando frete
+
+	// Atualizando frete
 	@PutMapping("/fretes/{id}")
 	public ResponseEntity<Frete> updateFrete(@PathVariable("id") Integer id, @RequestBody Frete frete) {
 		Optional<Frete> freteData = freteRepo.findById(id);
-		
-		if(freteData.isPresent()) {
+
+		if (freteData.isPresent()) {
 			Frete updateFrete = freteData.get();
 			updateFrete.setTitulo(frete.getTitulo());
 			updateFrete.setDescricao(frete.getDescricao());
@@ -84,29 +83,26 @@ public class FreteResource {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	//Deletar frete
+
+	// Deletar frete
 	@DeleteMapping("fretes/{id}")
 	public ResponseEntity<HttpStatus> deleteFrete(@PathVariable("id") Integer id) {
-		
+
 		try {
 			freteRepo.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Page<Frete>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="instante") String orderBy, 
-			@RequestParam(value="direction", defaultValue="DESC") String direction) {
+	public ResponseEntity<Page<Frete>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "instante") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
 		Page<Frete> list = freteService.findPage(page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(list);
 	}
-
-
 
 }

@@ -91,11 +91,6 @@ public class FreteResource {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "FreteResource [freteRepo=" + freteRepo + "]";
-	}
-	
-	
+
 
 }

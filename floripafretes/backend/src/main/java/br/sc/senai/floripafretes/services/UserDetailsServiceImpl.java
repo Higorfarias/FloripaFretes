@@ -12,19 +12,19 @@ import br.sc.senai.floripafretes.security.UserSS;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	
+
 	@Autowired
-	private UsuarioRepository usuarioRepo;
+	private UsuarioRepository repo;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Usuario user1 = usuarioRepo.findByEmail(email);
-		if (user1 == null) {
+		Usuario cli = repo.findByEmail(email);
+		if (cli == null) {
 			throw new UsernameNotFoundException(email);
 		}
-		
-		return new UserSS(user1.getId(), user1.getEmail(), user1.getSenha());
+		return new UserSS(cli.getId(), cli.getEmail(), cli.getSenha(), cli.getPerfis());
 	}
+	
 
 	
 }

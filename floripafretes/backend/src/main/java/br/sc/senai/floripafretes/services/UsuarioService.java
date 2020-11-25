@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.sc.senai.floripafretes.dto.UsuarioDTO;
+import br.sc.senai.floripafretes.dto.UsuarioNewDTO;
 import br.sc.senai.floripafretes.entities.Usuario;
 import br.sc.senai.floripafretes.exception.ResourceNotFoundException;
 import br.sc.senai.floripafretes.repositories.UsuarioRepository;
@@ -15,7 +17,7 @@ public class UsuarioService {
 
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepo;
 
@@ -40,7 +42,7 @@ public class UsuarioService {
 		entity.setEmail(usuario.getEmail());
 		entity.setSenha(bCrypt.encode(usuario.getSenha()));
 		entity.setCelular(usuario.getCelular());
-		
+
 		return usuarioRepo.save(entity);
 	}
 
@@ -50,4 +52,13 @@ public class UsuarioService {
 		usuarioRepo.delete(entity);
 	}
 
+	public Usuario fromDTO(UsuarioDTO objDto) {
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+	}
+
+	public Usuario fromDTO(UsuarioNewDTO objDto) {
+		Usuario cli = new Usuario(null, objDto.getNome(), objDto.getEmail(), bCrypt.encode(objDto.getSenha()), null);
+		return cli;
+
+}
 }

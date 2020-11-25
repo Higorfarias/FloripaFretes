@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,39 +21,38 @@ import br.sc.senai.floripafretes.security.JWTAuthenticationFilter;
 import br.sc.senai.floripafretes.security.JWTAuthorizationFilter;
 import br.sc.senai.floripafretes.security.JWTUtil;
 
-
-
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
 	@Autowired
     private Environment env;
 	
 	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
 	private JWTUtil jwtUtil;
 	
+//	private JWTUtil jwtUtil;
+
 	private static final String[] PUBLIC_MATCHERS = {
-			"/h2-console/**",
-			"/usuarios/**"
+			"/h2-console/**"
+//			"/usuarios/**"
 	};
 
 	private static final String[] PUBLIC_MATCHERS_GET = {
-			"/fretes/**"
+			"/fretes/**",
+		
 	};
-
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
-		
+
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
@@ -65,18 +62,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-	}
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
 	

@@ -21,14 +21,14 @@ import br.sc.senai.floripafretes.repositories.UsuarioRepository;
 @RestController
 @RequestMapping("/")
 public class UsuarioResource {
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepo;
-	
-	//Inserindo novo usuario
-	@PostMapping("/usuarios") 
+
+	// Inserindo novo usuario
+	@PostMapping("/usuarios")
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) {
-		
+
 		try {
 			Usuario newUsuario = usuarioRepo.save(usuario);
 			return new ResponseEntity<>(newUsuario, HttpStatus.CREATED);
@@ -36,36 +36,35 @@ public class UsuarioResource {
 			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
 		}
 	}
-	
-	//Listando todos usuarios
+
+	// Listando todos usuarios
 	@GetMapping("/usuarios")
-	public ResponseEntity <Iterable<Usuario>> listUsuarios() {
-		
+	public ResponseEntity<Iterable<Usuario>> listUsuarios() {
+
 		try {
 			Iterable<Usuario> usuarios = usuarioRepo.findAll();
 			if (((Collection<?>) usuarios).size() == 0) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(usuarios, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(usuarios, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
-	//Buscando usuario por id
+
+	// Buscando usuario por id
 	@GetMapping("usuarios/{id}")
-	public ResponseEntity<?> findById (@PathVariable("id") Integer id) {
-		return usuarioRepo.findById(id)
-				.map(record -> ResponseEntity.ok().body(record))
+	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
+		return usuarioRepo.findById(id).map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
-	//Atualizar usuario por id
+
+	// Atualizar usuario por id
 	@PutMapping("/usuarios/{id}")
 	public ResponseEntity<Usuario> updateUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
 		Optional<Usuario> usuarioData = usuarioRepo.findById(id);
-		
-		if(usuarioData.isPresent()) {
+
+		if (usuarioData.isPresent()) {
 			Usuario updateUsuario = usuarioData.get();
 			updateUsuario.setNome(usuario.getNome());
 			updateUsuario.setEmail(usuario.getEmail());
@@ -76,14 +75,14 @@ public class UsuarioResource {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	//Deletar usuario por id
+
+	// Deletar usuario por id
 	@DeleteMapping("usuarios/{id}")
 	public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") Integer id) {
-		
+
 		try {
 			usuarioRepo.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}

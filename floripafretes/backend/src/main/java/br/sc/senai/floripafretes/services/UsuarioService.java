@@ -31,10 +31,10 @@ public class UsuarioService {
 	public List<Usuario> findAll() {
 		return usuarioRepo.findAll();
 	}
-	
+
 	public Usuario findById(Integer id) {
 		UserSS user = UserService.authenticated();
-		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 		}
 		return usuarioRepo.findById(id)

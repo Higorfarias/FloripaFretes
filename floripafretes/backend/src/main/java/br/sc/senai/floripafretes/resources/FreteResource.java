@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.sc.senai.floripafretes.entities.Frete;
 import br.sc.senai.floripafretes.repositories.FreteRepository;
+import br.sc.senai.floripafretes.services.FreteService;
 
 @RestController
 @RequestMapping("/")
@@ -25,6 +28,9 @@ public class FreteResource {
 	
 	@Autowired
 	private FreteRepository freteRepo;
+	
+
+	private FreteService freteService;
 	
 	//Inserir novo frete
 	@PostMapping("/fretes")
@@ -89,6 +95,16 @@ public class FreteResource {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<Frete>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
+			@RequestParam(value="orderBy", defaultValue="instante") String orderBy, 
+			@RequestParam(value="direction", defaultValue="DESC") String direction) {
+		Page<Frete> list = freteService.findPage(page, linesPerPage, orderBy, direction);
+		return ResponseEntity.ok().body(list);
 	}
 
 

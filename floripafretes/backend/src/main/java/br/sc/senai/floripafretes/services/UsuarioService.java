@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import br.sc.senai.floripafretes.dto.UsuarioDTO;
 import br.sc.senai.floripafretes.dto.UsuarioNewDTO;
 import br.sc.senai.floripafretes.entities.Usuario;
+import br.sc.senai.floripafretes.entities.enums.Perfil;
+import br.sc.senai.floripafretes.exception.AuthorizationException;
 import br.sc.senai.floripafretes.exception.ResourceNotFoundException;
 import br.sc.senai.floripafretes.repositories.UsuarioRepository;
+import br.sc.senai.floripafretes.security.UserSS;
 
 @Service
 public class UsuarioService {
@@ -28,8 +31,12 @@ public class UsuarioService {
 	public List<Usuario> findAll() {
 		return usuarioRepo.findAll();
 	}
-
+	
 	public Usuario findById(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		return usuarioRepo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 	}
@@ -60,5 +67,5 @@ public class UsuarioService {
 		Usuario cli = new Usuario(null, objDto.getNome(), objDto.getEmail(), bCrypt.encode(objDto.getSenha()), null);
 		return cli;
 
-}
+	}
 }

@@ -1,5 +1,6 @@
 package br.sc.senai.floripafretes.resources;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.sc.senai.floripafretes.entities.Usuario;
 import br.sc.senai.floripafretes.repositories.UsuarioRepository;
+import br.sc.senai.floripafretes.services.UsuarioService;
 
 @RestController
 @RequestMapping("/")
@@ -25,6 +29,9 @@ public class UsuarioResource {
 
 	@Autowired
 	private UsuarioRepository usuarioRepo;
+	
+	@Autowired
+	private UsuarioService service;
 
 	// Inserindo novo usuario
 	@PostMapping("/usuarios")
@@ -89,6 +96,12 @@ public class UsuarioResource {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
+	}
+	
+	@PostMapping("/usuarios/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name="file") MultipartFile file) {
+		URI uri = service.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
 	}
 
 }

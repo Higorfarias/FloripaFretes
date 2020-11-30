@@ -1,10 +1,12 @@
 package br.sc.senai.floripafretes.services;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.sc.senai.floripafretes.dto.UsuarioDTO;
 import br.sc.senai.floripafretes.dto.UsuarioNewDTO;
@@ -23,6 +25,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepo;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	public Usuario create(Usuario usuario) {
 		return usuarioRepo.save(usuario);
@@ -68,4 +73,20 @@ public class UsuarioService {
 		return cli;
 
 	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+		
+		String fileName = prefix + user.getId() + ".jpg";
+		
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+	}
+	
 }

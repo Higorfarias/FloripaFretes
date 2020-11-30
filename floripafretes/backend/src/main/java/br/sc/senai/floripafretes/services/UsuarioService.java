@@ -1,9 +1,11 @@
 package br.sc.senai.floripafretes.services;
 
 import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,15 @@ public class UsuarioService {
 	
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	public Usuario create(Usuario usuario) {
 		return usuarioRepo.save(usuario);

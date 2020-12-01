@@ -1,5 +1,6 @@
 package br.sc.senai.floripafretes.resources;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.sc.senai.floripafretes.entities.Frete;
 import br.sc.senai.floripafretes.repositories.FreteRepository;
@@ -103,6 +105,12 @@ public class FreteResource {
 			@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
 		Page<Frete> list = freteService.findPage(page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@PostMapping("/fretes/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name="file") MultipartFile file) {
+		URI uri = freteService.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
 	}
 
 }

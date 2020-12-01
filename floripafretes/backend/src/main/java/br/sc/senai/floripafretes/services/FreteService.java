@@ -1,12 +1,16 @@
 package br.sc.senai.floripafretes.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.sc.senai.floripafretes.entities.Frete;
 import br.sc.senai.floripafretes.entities.Usuario;
@@ -22,6 +26,18 @@ public class FreteService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private S3Service s3Service;
+	
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 	
 	public Frete create(Frete frete) {
 		return freteRepo.save(frete);
@@ -65,6 +81,21 @@ public class FreteService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		Usuario usuario =  usuarioService.findById(user.getId());
 		return freteRepo.findByUsuario(usuario, pageRequest);
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+		
+		String fileName = prefix + user.getId() + ".jpg";
+		
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 
 

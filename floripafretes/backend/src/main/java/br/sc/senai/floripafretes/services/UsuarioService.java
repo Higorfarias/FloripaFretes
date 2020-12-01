@@ -15,6 +15,7 @@ import br.sc.senai.floripafretes.dto.UsuarioNewDTO;
 import br.sc.senai.floripafretes.entities.Usuario;
 import br.sc.senai.floripafretes.entities.enums.Perfil;
 import br.sc.senai.floripafretes.exception.AuthorizationException;
+import br.sc.senai.floripafretes.exception.ObjectNotFoundException;
 import br.sc.senai.floripafretes.exception.ResourceNotFoundException;
 import br.sc.senai.floripafretes.repositories.UsuarioRepository;
 import br.sc.senai.floripafretes.security.UserSS;
@@ -98,6 +99,21 @@ public class UsuarioService {
 		String fileName = prefix + user.getId() + ".jpg";
 		
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+	}
+	
+	//Busca usuario por email
+	public Usuario findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Usuario obj = usuarioRepo.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Usuario.class.getName());
+		}
+		return obj;
 	}
 	
 }

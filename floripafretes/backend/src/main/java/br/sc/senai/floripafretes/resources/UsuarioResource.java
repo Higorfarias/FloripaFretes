@@ -103,5 +103,11 @@ public class UsuarioResource {
 		URI uri = service.uploadProfilePicture(file);
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@GetMapping("/email")
+	public ResponseEntity<Usuario> findByEmail(@RequestParam(value="value") String email) {
+		Usuario obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
 
 }

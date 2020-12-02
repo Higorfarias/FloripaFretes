@@ -4,10 +4,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-registrar',
-  templateUrl: 'registrar.html',
+  selector: 'page-anunciar',
+  templateUrl: 'anunciar.html',
 })
-export class RegistrarPage {
+export class AnunciarPage {
 
   formGroup: FormGroup;
  
@@ -17,12 +17,14 @@ export class RegistrarPage {
     public formBuilder: FormBuilder) {
 
     this.formGroup = this.formBuilder.group({
-      nome: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(80)]],
-      email: ['', [Validators.required, Validators.email]],
-      cpf : ['', [Validators.required]],
-      senha : ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      titulo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      descricao: ['', [Validators.required, Validators.maxLength(100)]],
+      cep : ['', [Validators.required]],
+      endereco : ['', [Validators.required, Validators.maxLength(80)]],
       celular : ['', []],     
     });
+
+
 
 }
 

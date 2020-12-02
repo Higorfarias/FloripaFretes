@@ -26,6 +26,7 @@ export class MyApp {
 
     this.pages = [
       { title: 'Inicio', component: 'FretesPage' },
+      { title: 'Inserir Frete', component: 'AnunciarPage' },
       { title: 'Perfil', component: 'PerfilPage' },
       { title: 'Sair', component: ''}
      

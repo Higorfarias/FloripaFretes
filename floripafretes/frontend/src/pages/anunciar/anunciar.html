@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Anunciar frete</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+   <form [formGroup]="formGroup" (ngSubmit)="anunciarFrete(); $event.preventDefault()">
+    <ion-item>
+      <ion-label stacked>Titulo*</ion-label>
+      <ion-input formControlName="titulo" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Descrição*</ion-label>
+      <ion-textarea formControlName="descricao" type="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>CEP*</ion-label>
+      <ion-input formControlName="cep" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Endereço*</ion-label>
+      <ion-input formControlName="endereco" type="text"></ion-input>
+    </ion-item> 
+    <ion-item>
+      <ion-label stacked>Celular</ion-label>
+      <ion-input formControlName="celular" type="text"></ion-input>
+    </ion-item>
+    <button ion-button block outline (click)="anunciar">Anunciar</button>
+    
+  </form>
+</ion-content>

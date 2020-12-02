@@ -10,18 +10,22 @@
       <ion-label stacked>Titulo*</ion-label>
       <ion-input formControlName="titulo" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.titulo.dirty && formGroup.controls.titulo.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Descrição*</ion-label>
       <ion-textarea formControlName="descricao" type="text"></ion-textarea>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.descricao.dirty && formGroup.controls.descricao.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>CEP*</ion-label>
       <ion-input formControlName="cep" type="text"></ion-input>
     </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cep.dirty && formGroup.controls.cep.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Endereço*</ion-label>
       <ion-input formControlName="endereco" type="text"></ion-input>
     </ion-item> 
+    <p class="danger" *ngIf="formGroup.controls.endereco.dirty && formGroup.controls.endereco.errors" margin-left>Valor inválido</p>
     <ion-item>
       <ion-label stacked>Celular</ion-label>
       <ion-input formControlName="celular" type="text"></ion-input>

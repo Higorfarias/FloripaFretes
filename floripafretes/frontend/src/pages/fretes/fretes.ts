@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FreteDTO } from '../../models/frete.dto';
 import { FreteService } from '../../services/domain/frete.service';
 
 /**
@@ -16,6 +17,8 @@ import { FreteService } from '../../services/domain/frete.service';
 })
 export class FretesPage {
 
+  items: FreteDTO[];
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -24,7 +27,7 @@ export class FretesPage {
 
   ionViewDidLoad() {
     this.freteService.findAll().subscribe(response => {
-      console.log(response);
+      this.items = response;
     },
     error => {
       console.log(error);

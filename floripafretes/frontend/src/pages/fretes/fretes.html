@@ -9,6 +9,15 @@
 </ion-header>
 
 <ion-content padding>
-  <p>Página de fretes</p>
+  <ion-list>
+    <button ion-item *ngFor="let item of items">
+      <ion-thumbnail item-start>
+        <img src="">
+      </ion-thumbnail>
+      <h2> {{ item.titulo}} </h2>
+      <h5> {{ item.endereco }} </h5>
+      <h6> {{ item.data }} </h6>
+    </button>
+  </ion-list>
 
 </ion-content>

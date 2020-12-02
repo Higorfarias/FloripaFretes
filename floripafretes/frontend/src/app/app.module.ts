@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FreteService } from '../services/domain/frete.service';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AuthService } from '../services/auth.service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FreteService,
-    AuthService
+    AuthService,
+    StorageService
   ]
 })
 export class AppModule {}

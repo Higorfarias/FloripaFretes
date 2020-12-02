@@ -19,7 +19,9 @@ export class MyApp {
 
 
     this.pages = [
-      { title: 'Home', component: 'HomePage' }
+      { title: 'Inicio', component: 'FretesPage' },
+      { title: 'Perfil', component: 'PerfilPage' }
+     
     ];
 
   }

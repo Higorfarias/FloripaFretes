@@ -3,13 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FreteDTO } from '../../models/frete.dto';
 import { FreteService } from '../../services/domain/frete.service';
 
-/**
- * Generated class for the FretesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-fretes',

@@ -47,5 +47,9 @@ export class HomePage {
     );
   
   }
+  
+  registrar() {
+    this.navCtrl.push('RegistrarPage');
+  }
 
 }

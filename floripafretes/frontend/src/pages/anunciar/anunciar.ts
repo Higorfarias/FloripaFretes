@@ -21,7 +21,7 @@ export class AnunciarPage {
 
     this.formGroup = this.formBuilder.group({
       titulo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
-      descricao: ['', [Validators.required, Validators.maxLength(100)]],
+      descricao: ['', [Validators.required, Validators.maxLength(500)]],
       cep : ['', [Validators.required]],
       endereco : ['', [Validators.required, Validators.maxLength(80)]],
       celular : ['', []],     

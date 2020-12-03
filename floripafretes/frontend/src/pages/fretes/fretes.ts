@@ -30,4 +30,8 @@ export class FretesPage {
 
   }
 
+  showDetail(frete_id : string) {
+    this.navCtrl.push('FreteDetailPage', {frete_id: frete_id});
+  }
+
 }

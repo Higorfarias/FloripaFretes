@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Detalhes do frete</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <img [src]="item?.imageUrl || 'assets/imgs/prod.jpg'"/>
+    <ion-card-content>
+      <label>Titulo </label>
+      <ion-card-title>
+        {{item?.titulo}}
+        </ion-card-title> <br> 
+       <label>Descrição :</label>  <br>
+      <h6>
+        {{item?.descricao}}
+      </h6> <br>
+      CEP :
+       <p>{{item?.cep}}</p> <br>
+       Endereço : 
+       <p>{{item?.endereco}}</p> <br>
+        Celular :
+       <p>{{item?.celular}}</p> <br>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

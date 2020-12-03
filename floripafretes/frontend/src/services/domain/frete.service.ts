@@ -11,6 +11,10 @@ export class FreteService {
 
     }
 
+    findById(frete_id : string) {
+        return this.http.get<FreteDTO>(`${API_CONFIG.baseUrl}/fretes/${frete_id}`);
+      }
+
     findAll() : Observable<FreteDTO[]> {
         return this.http.get<FreteDTO[]>(`${API_CONFIG.baseUrl}/fretes`);
     }
@@ -24,5 +28,6 @@ export class FreteService {
                 responseType: 'text'
             }
         ); 
-        }
+    }
+
 }

@@ -15,4 +15,14 @@ export class FreteService {
         return this.http.get<FreteDTO[]>(`${API_CONFIG.baseUrl}/fretes`);
     }
 
+    insert(obj : FreteDTO) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/fretes`, 
+            obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+        }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { UsuarioService } from '../../services/domain/usuario.service';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,8 @@ export class RegistrarPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public usuarioService: UsuarioService,
     public formBuilder: FormBuilder) {
 
     this.formGroup = this.formBuilder.group({
@@ -24,6 +27,29 @@ export class RegistrarPage {
       celular : ['', []],     
     });
 
+  }
+  registrarUser() {
+    this.usuarioService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      },
+      error => {});
+  }
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alert.present();
+}
 }
 
-}

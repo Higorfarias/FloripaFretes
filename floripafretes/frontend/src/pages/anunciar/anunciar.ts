@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FreteService } from '../../services/domain/frete.service';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,8 @@ export class AnunciarPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public freteService: FreteService,
     public formBuilder: FormBuilder) {
 
     this.formGroup = this.formBuilder.group({
@@ -23,9 +26,30 @@ export class AnunciarPage {
       endereco : ['', [Validators.required, Validators.maxLength(80)]],
       celular : ['', []],     
     });
+  }
 
-
-
+  anunciarFrete() {
+    this.freteService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      },
+      error => {});
+  }
+  showInsertOk() {
+    let alert = this.alertCtrl.create({
+      title: 'Sucesso!',
+      message: 'Frete anunciado',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.navCtrl.setRoot("FretesPage");
+          }
+        }
+      ]
+    });
+    alert.present();
 }
 
 }

@@ -21,8 +21,14 @@ export class UsuarioService {
             {'headers': authHeader});
     }
 
-    /*getImageFromBucket(id : string) : Observable<any> {
-        let url = `${API_CONFIG.baseUrl}/cp${id}.jpg`
-        return this.http.get(url, {responseType : 'blob'});
-    }*/
-} 
+    insert(obj : UsuarioDTO) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/usuarios`, 
+            obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
+}

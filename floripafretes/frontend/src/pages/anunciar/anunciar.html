@@ -30,7 +30,8 @@
       <ion-label stacked>Celular</ion-label>
       <ion-input formControlName="celular" type="text"></ion-input>
     </ion-item>
-    <button ion-button block outline (click)="anunciar">Anunciar</button>
+    <button ion-button block outline (click)="anunciar" [disabled]="formGroup.invalid" >Anunciar</button>
+  
     
   </form>
 </ion-content>
